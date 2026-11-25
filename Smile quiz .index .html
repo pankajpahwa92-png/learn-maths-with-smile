@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn Maths with Smile — Smiley Coin Quiz Studio</title>
+  <style>
+    :root {
+      --bg: #f6f8ff;
+      --surface: #ffffff;
+      --surface-soft: #eef2ff;
+      --ink: #1e2438;
+      --muted: #64708a;
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --accent: #f59e0b;
+      --accent-soft: #fef3c7;
+      --success: #10b981;
+      --success-soft: #d1fae5;
+      --danger: #ef4444;
+      --danger-soft: #fee2e2;
+      --border: #e2e8f0;
+      --radius: 18px;
+      --shadow: 0 12px 30px rgba(30, 36, 56, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2ff 0%, #fef9c3 50%, #ecfdf5 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .app-shell {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface);
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .brand p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .status-pill.synced {
+      background: var(--success-soft);
+      color: #065f46;
+    }
+
+    .status-pill.syncing {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      touch-action: manipulation;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #1e2438;
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: #f8fafc;
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: #b91c1c;
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      border-radius: 10px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .login-box {
+      max-width: 460px;
+      margin: 24px auto;
+      text-align: center;
+    }
+
+    .coin-hero {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fef08a, #f59e0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);
+      border: 4px solid #fff;
+    }
+
+    .login-box h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .login-box p {
+      color: var(--muted);
+      font-size: 0.94rem;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .input, .select, .textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .hud-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface-soft);
+      padding: 14px 18px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .hud-student {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-coin {
+      background: var(--accent-soft);
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .badge-vip {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+    }
+
+    .badge-progress {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid #c7d2fe;
+    }
+
+    .question-banner {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #fff;
+      padding: 18px 20px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .question-banner h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .question-banner img {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 12px;
+      margin-top: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .grid-3x3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 480px;
+      margin: 0 auto 20px;
+    }
+
+    .tile {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      border: 2.5px solid #cbd5e1;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+    }
+
+    .tile:hover:not(.locked) {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      background: #f8faff;
+    }
+
+    .tile.selected {
+      border-color: var(--danger);
+      background: #fff5f5;
+    }
+
+    .tile.correct-reveal {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .tile-text {
+      font-size: clamp(1.35rem, 4vw, 2.1rem);
+      font-weight: 900;
+      color: var(--ink);
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .tile img {
+      width: 82%;
+      height: 82%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .cross-mark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(254, 226, 226, 0.35);
+      animation: popIn 0.16s ease-out;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .feedback-box {
+      padding: 16px 18px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .feedback-box.win {
+      background: var(--success-soft);
+      color: #065f46;
+      border: 1.5px solid #34d399;
+    }
+
+    .feedback-box.lose {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1.5px solid #fbbf24;
+    }
+
+    .paywall-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 680px) {
+      .paywall-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .qr-box {
+      background: #fff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .qr-box canvas, .qr-box img {
+      max-width: 190px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 8px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .copy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: #f1f5f9;
+      color: var(--muted);
+      border: none;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .kpi-card span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .kpi-card strong {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .builder-cell {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      background: #f8fafc;
+    }
+
+    .builder-cell.is-answer {
+      border-color: var(--success);
+      background: #ecfdf5;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e2438;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+  <div id="toast" class="toast"></div>
+
+  <div class="app-shell">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <circle cx="9" cy="9.5" r="1.6" fill="#1e2438"/>
+            <circle cx="15" cy="9.5" r="1.6" fill="#1e2438"/>
+            <path d="M8 14.5C9.2 16.5 14.8 16.5 16 14.5" stroke="#1e2438" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1 id="header-app-title">Learn Maths with Smile</h1>
+          <p id="header-app-subtitle">Smiley Coin Interactive Puzzle Studio</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span id="sync-status" class="status-pill"><span class="dot"></span><span id="sync-status-text">Local Mode</span></span>
+        <button type="button" id="btn-sync" class="btn btn-outline btn-sm">Sync</button>
+        <button type="button" id="btn-admin-open" class="btn btn-outline btn-sm">Admin</button>
+      </div>
+    </header>
+
+    <!-- Error / Reset Banner -->
+    <div id="error-banner" class="card hidden" style="border-color:#ef4444;background:#fef2f2;">
+      <h3 style="color:#b91c1c;margin-bottom:6px;">Storage Recovery Notice</h3>
+      <p id="error-banner-msg" style="font-size:0.9rem;margin-bottom:12px;"></p>
+      <button type="button" id="btn-reset-cache-banner" class="btn btn-danger btn-sm">Reset Local Cache</button>
+    </div>
+
+    <!-- VIEW 1: STUDENT LOGIN -->
+    <section id="view-login" class="card login-box">
+      <div class="coin-hero">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none">
+          <circle cx="9" cy="9.5" r="1.7" fill="#1e2438"/>
+          <circle cx="15" cy="9.5" r="1.7" fill="#1e2438"/>
+          <path d="M7.5 14.2C9 16.8 15 16.8 16.5 14.2" stroke="#1e2438" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2>Ready to Win Smiley Coins?</h2>
+      <p>Enter your name and mobile number to start solving puzzles and collecting Colorful Smiley Coins!</p>
+
+      <div class="form-group">
+        <label for="student-name">Student Name</label>
+        <input id="student-name" class="input" type="text" placeholder="e.g., Aarav Sharma" />
+      </div>
+
+      <div class="form-group">
+        <label for="student-mobile">Mobile Number (10 digits)</label>
+        <input id="student-mobile" class="input" type="tel" maxlength="10" placeholder="e.g., 9876543210" />
+      </div>
+
+      <button type="button" id="btn-start-playing" class="btn btn-primary" style="width:100%;padding:13px;">
+        Start Playing
+      </button>
+    </section>
+
+    <!-- VIEW 2: STUDENT QUIZ BOARD -->
+    <section id="view-quiz" class="card hidden">
+      <div class="hud-bar">
+        <div class="hud-student">
+          <strong id="hud-name">Student</strong>
+          <span class="badge badge-coin">Smiley Coins: <span id="hud-coins">0</span></span>
+          <span id="hud-vip-badge" class="badge badge-vip hidden">VIP PASS</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span id="hud-progress" class="badge badge-progress">Quiz 1 of 3</span>
+          <button type="button" id="unlock-header-btn" class="btn btn-accent btn-sm">Unlock All</button>
+          <button type="button" id="btn-switch-student" class="btn btn-outline btn-sm">Switch Student</button>
+        </div>
+      </div>
+
+      <div id="quiz-active-area">
+        <div class="question-banner">
+          <h3 id="quiz-question-text">Loading puzzle...</h3>
+          <img id="quiz-question-img" class="hidden" alt="Question illustration" />
+        </div>
+
+        <p style="text-align:center;color:var(--muted);font-size:0.88rem;margin-bottom:12px;">
+          Tap the box to put a cross (<strong>X</strong>) on your answer, then click Submit.
+        </p>
+
+        <div id="quiz-grid" class="grid-3x3"></div>
+
+        <div id="quiz-feedback" class="feedback-box hidden"></div>
+
+        <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+          <button type="button" id="submit-answer-btn" class="btn btn-primary" style="min-width:190px;">
+            Submit Answer
+          </button>
+          <button type="button" id="next-quiz-btn" class="btn btn-success hidden" style="min-width:190px;">
+            Next Puzzle &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Completion Screen -->
+      <div id="quiz-complete-area" class="hidden" style="text-align:center;padding:24px 10px;">
+        <div class="coin-hero">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none">
+            <circle cx="9" cy="9.5" r="1.7" fill="#1e2438"/>
+            <circle cx="15" cy="9.5" r="1.7" fill="#1e2438"/>
+            <path d="M7.5 14.2C9 16.8 15 16.8 16.5 14.2" stroke="#1e2438" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 style="margin-bottom:8px;">All Puzzles Completed!</h2>
+        <p style="color:var(--muted);margin-bottom:18px;">
+          You collected <strong id="final-coins-count">0</strong> Colorful Smiley Coins!
+        </p>
+        <button type="button" id="btn-review-puzzles" class="btn btn-primary">Review Puzzles</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: GPAY / UPI UNLOCK PAYWALL -->
+    <section id="view-paywall" class="card hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h2 style="font-size:1.35rem;">Unlock All Smiley Coin Quizzes</h2>
+          <p style="color:var(--muted);font-size:0.9rem;">
+            Unlock full access for <strong>&#8377;<span id="pay-price-display">99</span></strong>.
+          </p>
+        </div>
+        <button type="button" id="btn-close-paywall" class="btn btn-outline btn-sm">Back</button>
+      </div>
+
+      <div class="paywall-grid">
+        <div class="qr-box">
+          <img id="custom-qr-preview" class="hidden" alt="GPay QR Code" />
+          <canvas id="upi-qr-canvas" width="190" height="190"></canvas>
+          <p style="font-size:0.8rem;color:var(--muted);font-weight:600;">
+            Scan with GPay, PhonePe, or Paytm
+          </p>
+          <a id="upi-deep-link" href="#" class="btn btn-primary btn-sm" style="margin-top:10px;width:100%;">
+            Pay &#8377;<span id="pay-btn-amount">99</span> via GPay / UPI App
+          </a>
+        </div>
+
+        <div>
+          <div class="copy-row">
+            <div>
+              <small style="color:var(--muted);display:block;">GPay / UPI Mobile Number</small>
+              <strong id="pay-gpay-number">Not configured yet</strong>
+            </div>
+            <button type="button" id="btn-copy-gpay" class="btn btn-outline btn-sm">Copy</button>
+          </div>
+
+          <div class="copy-row">
+            <div>
+              <small style="color:var(--muted);display:block;">GPay UPI ID (VPA)</small>
+              <strong id="pay-upi-id">Not configured yet</strong>
+            </div>
+            <button type="button" id="btn-copy-upi" class="btn btn-outline btn-sm">Copy</button>
+          </div>
+
+          <a id="whatsapp-proof-link" href="#" target="_blank" rel="noopener" class="btn btn-success" style="width:100%;margin-bottom:14px;">
+            Send Payment Screenshot on WhatsApp
+          </a>
+
+          <div style="background:#f8fafc;padding:14px;border-radius:14px;border:1px solid var(--border);">
+            <label for="unlock-code-input" style="display:block;font-size:0.84rem;font-weight:700;margin-bottom:6px;">
+              Have your Pass Unlock Code? Enter below:
+            </label>
+            <div style="display:flex;gap:8px;">
+              <input id="unlock-code-input" class="input" type="text" placeholder="Enter Unlock Code" />
+              <button type="button" id="btn-verify-unlock" class="btn btn-accent">Unlock</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: ADMIN LOGIN MODAL -->
+    <section id="view-admin-login" class="card login-box hidden">
+      <h2>Owner Admin Login</h2>
+      <p>Enter your Admin PIN to manage quizzes, GPay settings, and student records.</p>
+      <div class="form-group">
+        <label for="admin-pin-input">Admin PIN</label>
+        <input id="admin-pin-input" class="input" type="password" placeholder="Default PIN: 1234" />
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button type="button" id="btn-login-admin" class="btn btn-primary" style="flex:1;">Unlock Dashboard</button>
+        <button type="button" id="btn-cancel-admin" class="btn btn-outline">Cancel</button>
+      </div>
+    </section>
+
+    <!-- VIEW 5: ADMIN DASHBOARD -->
+    <section id="view-admin" class="card hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+        <div>
+          <h2>Owner Admin Dashboard</h2>
+          <p style="font-size:0.86rem;color:var(--muted);">Manage puzzles, student Smiley Coins, GPay UPI details & live cloud sync</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" id="btn-preview-paywall" class="btn btn-accent btn-sm">Preview GPay Screen</button>
+          <button type="button" id="btn-exit-admin" class="btn btn-outline btn-sm">Exit Admin</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card"><span>Total Students</span><strong id="kpi-students">0</strong></div>
+        <div class="kpi-card"><span>Total Attempts</span><strong id="kpi-attempts">0</strong></div>
+        <div class="kpi-card"><span>Correct Answers</span><strong id="kpi-correct">0</strong></div>
+        <div class="kpi-card"><span>Smiley Coins Won</span><strong id="kpi-coins">0</strong></div>
+        <div class="kpi-card"><span>VIP Passes Unlocked</span><strong id="kpi-vip">0</strong></div>
+        <div class="kpi-card"><span>Active Quizzes</span><strong id="kpi-quizzes">0</strong></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button type="button" class="tab-btn active" data-tab="responses">Student Responses</button>
+        <button type="button" class="tab-btn" data-tab="quizzes">Manage & Create Quizzes</button>
+        <button type="button" class="tab-btn" data-tab="settings">GPay, Cloud Sync & Backup</button>
+      </div>
+
+      <!-- Tab 1: Responses -->
+      <div id="admin-tab-responses">
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+          <input id="response-search" class="input" style="max-width:300px;" placeholder="Search student name or mobile..." />
+          <button type="button" id="btn-export-csv" class="btn btn-primary btn-sm">Export CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Mobile</th>
+                <th>VIP</th>
+                <th>Quiz</th>
+                <th>Selected</th>
+                <th>Result</th>
+                <th>Coins</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="responses-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Quizzes -->
+      <div id="admin-tab-quizzes" class="hidden">
+        <h3 style="margin-bottom:10px;">Existing Quizzes</h3>
+        <div id="admin-quiz-list" style="margin-bottom:22px;"></div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;" />
+
+        <h3 id="builder-heading" style="margin-bottom:12px;">Create New 3x3 Puzzle</h3>
+        <input type="hidden" id="edit-quiz-id" value="" />
+
+        <div class="form-group">
+          <label for="new-quiz-question">Question Prompt</label>
+          <input id="new-quiz-question" class="input" placeholder="e.g., Put cross (X) on the odd one out letter" />
+        </div>
+
+        <div class="two-col">
+          <div class="form-group">
+            <label for="new-quiz-explanation">Learning Explanation (shown after submit)</label>
+            <input id="new-quiz-explanation" class="input" placeholder="e.g., A is the only vowel among consonants!" />
+          </div>
+          <div class="form-group">
+            <label for="new-quiz-banner-img">Optional Question Clue Image</label>
+            <input id="new-quiz-banner-img" class="input" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <p style="font-size:0.84rem;font-weight:700;margin-bottom:8px;">
+          Enter 9 Tile Values (or upload an image per tile) and select the single Correct Answer:
+        </p>
+        <div id="builder-cells" class="builder-grid"></div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" id="btn-save-quiz" class="btn btn-primary">Save Puzzle</button>
+          <button type="button" id="btn-clear-builder" class="btn btn-outline">Clear Form</button>
+        </div>
+      </div>
+
+      <!-- Tab 3: Settings -->
+      <div id="admin-tab-settings" class="hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <h3>Branding & GPay / UPI Monetization</h3>
+          <button type="button" id="btn-save-settings-top" class="btn btn-primary btn-sm">Save & Sync Settings</button>
+        </div>
+
+        <div class="two-col">
+          <div class="form-group">
+            <label for="set-app-title">App / Brand Title</label>
+            <input id="set-app-title" class="input" />
+          </div>
+          <div class="form-group">
+            <label for="set-payee-name">Payee / Merchant Display Name</label>
+            <input id="set-payee-name" class="input" placeholder="Learn Maths with Smile" />
+          </div>
+          <div class="form-group">
+            <label for="set-gpay-number">GPay / UPI Mobile Number</label>
+            <input id="set-gpay-number" class="input" placeholder="e.g., 9876543210" />
+          </div>
+          <div class="form-group">
+            <label for="set-upi-id">GPay UPI ID (VPA)</label>
+            <input id="set-upi-id" class="input" placeholder="e.g., yourname@okicici" />
+          </div>
+          <div class="form-group">
+            <label for="set-price">Quiz Pass Price (&#8377;)</label>
+            <input id="set-price" class="input" type="number" min="1" />
+          </div>
+          <div class="form-group">
+            <label for="set-free-limit">Free Quizzes Allowed Before Lock</label>
+            <input id="set-free-limit" class="input" type="number" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="set-unlock-code">Pass Unlock Code (to share after payment)</label>
+            <input id="set-unlock-code" class="input" placeholder="e.g., SMILE99" />
+          </div>
+          <div class="form-group">
+            <label for="set-whatsapp">WhatsApp Number (with 91 country code)</label>
+            <input id="set-whatsapp" class="input" placeholder="e.g., 919876543210" />
+          </div>
+          <div class="form-group">
+            <label for="set-admin-pin">Owner Admin PIN</label>
+            <input id="set-admin-pin" class="input" placeholder="1234" />
+          </div>
+          <div class="form-group">
+            <label for="set-custom-qr">Optional Custom GPay QR Screenshot</label>
+            <input id="set-custom-qr" class="input" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:18px 0;" />
+
+        <h3 style="margin-bottom:6px;">Real-Time Cloud Sync (Firebase Realtime Database)</h3>
+        <p style="font-size:0.84rem;color:var(--muted);margin-bottom:10px;">
+          Paste your Firebase Realtime Database URL (e.g., <code>https://your-project-default-rtdb.firebaseio.com</code>) so admin edits and student attempts sync across devices in real time.
+        </p>
+        <div class="form-group">
+          <label for="set-firebase-url">Firebase Realtime Database URL</label>
+          <input id="set-firebase-url" class="input" placeholder="https://your-project-default-rtdb.firebaseio.com" />
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;">
+          <button type="button" id="btn-save-settings-bottom" class="btn btn-primary">Save & Sync Settings</button>
+          <button type="button" id="btn-test-firebase" class="btn btn-outline">Test Cloud Connection</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:18px 0;" />
+
+        <h3 style="margin-bottom:10px;">Portable Backups & App Reset</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" id="btn-export-json" class="btn btn-outline">Export JSON Backup</button>
+          <label class="btn btn-outline" style="cursor:pointer;">
+            Import JSON Backup
+            <input id="input-import-json" type="file" accept=".json" style="display:none;" />
+          </label>
+          <button type="button" id="btn-download-html" class="btn btn-outline">Download Standalone index.html</button>
+          <button type="button" id="btn-reset-app" class="btn btn-danger">Reset App / Clear Cache</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const STORAGE_KEY = "smiley_coin_quiz_studio_v2";
+
+      const DEFAULT_QUIZZES = [
+        {
+          id: "q_odd_letter",
+          question: "Put cross (X) on the odd one out letter",
+          explanation: "A is the only vowel! All the other letters (R, C, F, Z, K, V, B, S) are consonants.",
+          bannerImg: "",
+          correctIndex: 5,
+          options: [
+            { text: "R", img: "" },
+            { text: "C", img: "" },
+            { text: "F", img: "" },
+            { text: "Z", img: "" },
+            { text: "K", img: "" },
+            { text: "A", img: "" },
+            { text: "V", img: "" },
+            { text: "B", img: "" },
+            { text: "S", img: "" }
+          ]
+        },
+        {
+          id: "q_even_number",
+          question: "Put cross (X) on the only EVEN number",
+          explanation: "14 is an even number because it is divisible by 2. All other numbers are odd.",
+          bannerImg: "",
+          correctIndex: 4,
+          options: [
+            { text: "3", img: "" },
+            { text: "7", img: "" },
+            { text: "11", img: "" },
+            { text: "19", img: "" },
+            { text: "14", img: "" },
+            { text: "21", img: "" },
+            { text: "25", img: "" },
+            { text: "9", img: "" },
+            { text: "15", img: "" }
+          ]
+        },
+        {
+          id: "q_multiple_5",
+          question: "Put cross (X) on the number that is NOT a multiple of 5",
+          explanation: "32 does not end in 0 or 5, so it is not a multiple of 5.",
+          bannerImg: "",
+          correctIndex: 7,
+          options: [
+            { text: "10", img: "" },
+            { text: "25", img: "" },
+            { text: "40", img: "" },
+            { text: "15", img: "" },
+            { text: "50", img: "" },
+            { text: "35", img: "" },
+            { text: "45", img: "" },
+            { text: "32", img: "" },
+            { text: "20", img: "" }
+          ]
+        }
+      ];
+
+      const DEFAULT_SETTINGS = {
+        appTitle: "Learn Maths with Smile",
+        payeeName: "Learn Maths with Smile",
+        gpayNumber: "",
+        upiId: "",
+        price: 99,
+        freeLimit: 1,
+        unlockCode: "SMILE99",
+        whatsapp: "",
+        adminPin: "1234",
+        firebaseUrl: "",
+        customQrImg: ""
+      };
+
+      const state = {
+        quizzes: JSON.parse(JSON.stringify(DEFAULT_QUIZZES)),
+        settings: Object.assign({}, DEFAULT_SETTINGS),
+        responses: [],
+        students: {},
+        currentStudent: null,
+        currentQuizIndex: 0,
+        selectedTile: null,
+        submittedCurrent: false,
+        syncTimer: null,
+        returnToAdminFromPaywall: false
+      };
+
+      function showToast(msg) {
+        const el = document.getElementById("toast");
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(el._timer);
+        el._timer = setTimeout(function () {
+          el.classList.remove("show");
+        }, 2800);
+      }
+
+      function saveLocal() {
+        try {
+          const payload = {
+            quizzes: state.quizzes,
+            settings: state.settings,
+            responses: state.responses,
+            students: state.students
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          return true;
+        } catch (e) {
+          showToast("Warning: Browser storage blocked or full.");
+          return false;
+        }
+      }
+
+      function loadLocal() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.quizzes) && parsed.quizzes.length > 0) {
+            state.quizzes = parsed.quizzes;
+          }
+          if (parsed.settings && typeof parsed.settings === "object") {
+            state.settings = Object.assign({}, DEFAULT_SETTINGS, parsed.settings);
+          }
+          if (Array.isArray(parsed.responses)) {
+            state.responses = parsed.responses;
+          }
+          if (parsed.students && typeof parsed.students === "object") {
+            state.students = parsed.students;
+          }
+        } catch (e) {
+          const banner = document.getElementById("error-banner");
+          const msg = document.getElementById("error-banner-msg");
+          if (banner && msg) {
+            msg.textContent = "Saved browser data could not be read cleanly. Tap Reset Local Cache to restore defaults.";
+            banner.classList.remove("hidden");
+          }
+        }
+      }
+
+      function cleanFirebaseUrl(url) {
+        return (url || "").trim().replace(/\/+$/, "");
+      }
+
+      function setSyncStatus(mode, text) {
+        const pill = document.getElementById("sync-status");
+        const label = document.getElementById("sync-status-text");
+        if (!pill || !label) return;
+        pill.classList.remove("synced", "syncing");
+        if (mode === "synced") pill.classList.add("synced");
+        if (mode === "syncing") pill.classList.add("syncing");
+        label.textContent = text;
+      }
+
+      async function pullFromCloud(silent) {
+        const base = cleanFirebaseUrl(state.settings.firebaseUrl);
+        if (!base) {
+          setSyncStatus("local", "Local Mode");
+          return false;
+        }
+        if (!silent) setSyncStatus("syncing", "Syncing...");
+        try {
+          const res = await fetch(base + "/.json");
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const data = await res.json();
+          if (data && typeof data === "object") {
+            if (Array.isArray(data.quizzes) && data.quizzes.length > 0) {
+              state.quizzes = data.quizzes;
+            }
+            if (data.settings && typeof data.settings === "object") {
+              const keepUrl = state.settings.firebaseUrl;
+              state.settings = Object.assign({}, DEFAULT_SETTINGS, data.settings, { firebaseUrl: keepUrl });
+            }
+            if (Array.isArray(data.responses)) {
+              state.responses = data.responses;
+            } else if (data.responses && typeof data.responses === "object") {
+              state.responses = Object.values(data.responses);
+            }
+            if (data.students && typeof data.students === "object") {
+              state.students = data.students;
+            }
+            saveLocal();
+            applyBranding();
+            if (!document.getElementById("view-admin").classList.contains("hidden")) {
+              renderAdminDashboard();
+            }
+            if (!document.getElementById("view-quiz").classList.contains("hidden") && !state.submittedCurrent && state.selectedTile === null) {
+              renderCurrentQuiz();
+            }
+          }
+          setSyncStatus("synced", "Live Cloud Synced");
+          return true;
+        } catch (err) {
+          setSyncStatus("local", "Offline / Retry");
+          return false;
+        }
+      }
+
+      async function pushToCloud(path, payload) {
+        const base = cleanFirebaseUrl(state.settings.firebaseUrl);
+        if (!base) return true;
+        setSyncStatus("syncing", "Saving...");
+        try {
+          const res = await fetch(base + "/" + path + ".json", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          setSyncStatus("synced", "Live Cloud Synced");
+          return true;
+        } catch (err) {
+          setSyncStatus("local", "Sync Error");
+          return false;
+        }
+      }
+
+      function applyBranding() {
+        const titleEl = document.getElementById("header-app-title");
+        if (titleEl) titleEl.textContent = state.settings.appTitle || "Learn Maths with Smile";
+        document.title = (state.settings.appTitle || "Learn Maths with Smile") + " — Quiz Studio";
+      }
+
+      function showOnlyView(viewId) {
+        ["view-login", "view-quiz", "view-paywall", "view-admin-login", "view-admin"].forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) el.classList.toggle("hidden", id !== viewId);
+        });
+      }
+
+      function playTone(isWin) {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          if (isWin) {
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+            osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+            osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+          } else {
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(320, ctx.currentTime);
+            osc.frequency.setValueAtTime(260, ctx.currentTime + 0.14);
+          }
+          gain.gain.setValueAtTime(0.14, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.38);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.4);
+        } catch (e) {}
+      }
+
+      function launchConfetti() {
+        const canvas = document.getElementById("confetti-canvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const colors = ["#f59e0b", "#10b981", "#4f46e5", "#ec4899", "#06b6d4"];
+        const pieces = Array.from({ length: 65 }, function () {
+          return {
+            x: Math.random() * canvas.width,
+            y: -20 - Math.random() * 120,
+            r: 5 + Math.random() * 6,
+            c: colors[Math.floor(Math.random() * colors.length)],
+            vy: 3 + Math.random() * 4,
+            vx: -2 + Math.random() * 4
+          };
+        });
+        let frame = 0;
+        function tick() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          pieces.forEach(function (p) {
+            p.x += p.vx;
+            p.y += p.vy;
+            ctx.fillStyle = p.c;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+          });
+          frame++;
+          if (frame < 75) requestAnimationFrame(tick);
+          else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function drawQrMatrix(canvas, text) {
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        const size = canvas.width;
+        const modules = 25;
+        const cell = Math.floor(size / modules);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, size, size);
+        ctx.fillStyle = "#1e2438";
+
+        function drawFinder(ox, oy) {
+          ctx.fillRect(ox * cell, oy * cell, 7 * cell, 7 * cell);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect((ox + 1) * cell, (oy + 1) * cell, 5 * cell, 5 * cell);
+          ctx.fillStyle = "#1e2438";
+          ctx.fillRect((ox + 2) * cell, (oy + 2) * cell, 3 * cell, 3 * cell);
+        }
+        drawFinder(0, 0);
+        drawFinder(modules - 7, 0);
+        drawFinder(0, modules - 7);
+
+        let hash = 2166136261;
+        for (let i = 0; i < text.length; i++) {
+          hash ^= text.charCodeAt(i);
+          hash = Math.imul(hash, 16777619);
+        }
+
+        for (let r = 0; r < modules; r++) {
+          for (let c = 0; c < modules; c++) {
+            const inTopLeft = r < 8 && c < 8;
+            const inTopRight = r < 8 && c >= modules - 8;
+            const inBottomLeft = r >= modules - 8 && c < 8;
+            if (inTopLeft || inTopRight || inBottomLeft) continue;
+            const bit = ((hash >>> ((r + c) % 24)) ^ (r * 31 + c * 17 + text.charCodeAt((r * modules + c) % text.length))) & 1;
+            if (bit) {
+              ctx.fillRect(c * cell, r * cell, cell - 1, cell - 1);
+            }
+          }
+        }
+      }
+
+      function compressImageFile(file, maxDim) {
+        return new Promise(function (resolve) {
+          if (!file) return resolve("");
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            const img = new Image();
+            img.onload = function () {
+              const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+              const w = Math.round(img.width * scale);
+              const h = Math.round(img.height * scale);
+              const canvas = document.createElement("canvas");
+              canvas.width = w;
+              canvas.height = h;
+              canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+              resolve(canvas.toDataURL("image/jpeg", 0.78));
+            };
+            img.onerror = function () { resolve(""); };
+            img.src = ev.target.result;
+          };
+          reader.onerror = function () { resolve(""); };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function getStudentRecord(mobile, name) {
+        if (!state.students[mobile]) {
+          state.students[mobile] = {
+            name: name,
+            mobile: mobile,
+            coins: 0,
+            vip: false,
+            answeredIds: {}
+          };
+        } else {
+          if (name) state.students[mobile].name = name;
+          if (!state.students[mobile].answeredIds) state.students[mobile].answeredIds = {};
+        }
+        return state.students[mobile];
+      }
+
+      function renderCurrentQuiz() {
+        const stu = state.currentStudent;
+        if (!stu) return showOnlyView("view-login");
+
+        const total = state.quizzes.length;
+        const freeLimit = Number(state.settings.freeLimit ?? 1);
+
+        if (!stu.vip && state.currentQuizIndex >= freeLimit && total > freeLimit) {
+          openPaywall(false);
+          return;
+        }
+
+        document.getElementById("hud-name").textContent = stu.name;
+        document.getElementById("hud-coins").textContent = stu.coins || 0;
+        document.getElementById("hud-vip-badge").classList.toggle("hidden", !stu.vip);
+        document.getElementById("unlock-header-btn").classList.toggle("hidden", !!stu.vip);
+
+        if (state.currentQuizIndex >= total) {
+          document.getElementById("quiz-active-area").classList.add("hidden");
+          document.getElementById("quiz-complete-area").classList.remove("hidden");
+          document.getElementById("final-coins-count").textContent = stu.coins || 0;
+          document.getElementById("hud-progress").textContent = "Completed";
+          return;
+        }
+
+        document.getElementById("quiz-active-area").classList.remove("hidden");
+        document.getElementById("quiz-complete-area").classList.add("hidden");
+        document.getElementById("hud-progress").textContent = "Quiz " + (state.currentQuizIndex + 1) + " of " + total;
+
+        const quiz = state.quizzes[state.currentQuizIndex];
+        document.getElementById("quiz-question-text").textContent = quiz.question;
+
+        const bannerImg = document.getElementById("quiz-question-img");
+        if (quiz.bannerImg) {
+          bannerImg.src = quiz.bannerImg;
+          bannerImg.classList.remove("hidden");
+        } else {
+          bannerImg.classList.add("hidden");
+        }
+
+        const alreadyAttempted = stu.answeredIds && stu.answeredIds[quiz.id] !== undefined;
+        state.submittedCurrent = alreadyAttempted;
+        if (alreadyAttempted) {
+          state.selectedTile = Number(stu.answeredIds[quiz.id]);
+        }
+
+        const grid = document.getElementById("quiz-grid");
+        grid.innerHTML = "";
+
+        quiz.options.forEach(function (opt, idx) {
+          const tile = document.createElement("div");
+          tile.className = "tile";
+          if (state.selectedTile === idx) tile.classList.add("selected");
+          if (alreadyAttempted) {
+            tile.classList.add("locked");
+            if (idx === Number(quiz.correctIndex)) tile.classList.add("correct-reveal");
+          }
+
+          if (opt.img) {
+            const img = document.createElement("img");
+            img.src = opt.img;
+            img.alt = opt.text || ("Option " + (idx + 1));
+            tile.appendChild(img);
+          }
+          if (opt.text) {
+            const span = document.createElement("span");
+            span.className = "tile-text";
+            span.textContent = opt.text;
+            if (opt.img) span.style.fontSize = "0.9rem";
+            tile.appendChild(span);
+          }
+
+          if (state.selectedTile === idx) {
+            const cross = document.createElement("div");
+            cross.className = "cross-mark";
+            cross.innerHTML = '<svg width="68" height="68" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="#ef4444" stroke-width="3.6" stroke-linecap="round"/></svg>';
+            tile.appendChild(cross);
+          }
+
+          tile.addEventListener("click", function () {
+            if (state.submittedCurrent) return;
+            state.selectedTile = idx;
+            renderCurrentQuiz();
+          });
+
+          grid.appendChild(tile);
+        });
+
+        const fb = document.getElementById("quiz-feedback");
+        const subBtn = document.getElementById("submit-answer-btn");
+        const nextBtn = document.getElementById("next-quiz-btn");
+
+        if (alreadyAttempted) {
+          const isRight = Number(state.selectedTile) === Number(quiz.correctIndex);
+          fb.className = "feedback-box " + (isRight ? "win" : "lose");
+          fb.innerHTML = (isRight ? "Awesome! +1 Colorful Smiley Coin earned! " : "Nice try! Here is the answer: ") + escapeHtml(quiz.explanation || "");
+          fb.classList.remove("hidden");
+          subBtn.classList.add("hidden");
+          nextBtn.classList.remove("hidden");
+        } else {
+          fb.classList.add("hidden");
+          subBtn.classList.remove("hidden");
+          nextBtn.classList.add("hidden");
+        }
+      }
+
+      function openPaywall(fromAdmin) {
+        state.returnToAdminFromPaywall = !!fromAdmin;
+        const price = state.settings.price || 99;
+        const upi = (state.settings.upiId || "").trim();
+        const gpay = (state.settings.gpayNumber || "").trim();
+        const payee = encodeURIComponent(state.settings.payeeName || "Learn Maths with Smile");
+
+        document.getElementById("pay-price-display").textContent = price;
+        document.getElementById("pay-btn-amount").textContent = price;
+        document.getElementById("pay-gpay-number").textContent = gpay || "Ask teacher for number";
+        document.getElementById("pay-upi-id").textContent = upi || "Ask teacher for UPI ID";
+
+        const upiUri = upi
+          ? "upi://pay?pa=" + encodeURIComponent(upi) + "&pn=" + payee + "&am=" + price + "&cu=INR"
+          : "upi://pay?pn=" + payee + "&am=" + price + "&cu=INR";
+
+        document.getElementById("upi-deep-link").href = upiUri;
+
+        const customImg = document.getElementById("custom-qr-preview");
+        const qrCanvas = document.getElementById("upi-qr-canvas");
+        if (state.settings.customQrImg) {
+          customImg.src = state.settings.customQrImg;
+          customImg.classList.remove("hidden");
+          qrCanvas.classList.add("hidden");
+        } else {
+          customImg.classList.add("hidden");
+          qrCanvas.classList.remove("hidden");
+          drawQrMatrix(qrCanvas, upiUri);
+        }
+
+        const wa = (state.settings.whatsapp || "").replace(/\D/g, "");
+        const stuName = state.currentStudent ? state.currentStudent.name : "Student";
+        const waText = encodeURIComponent("Hello! I paid Rs." + price + " for " + (state.settings.appTitle || "Learn Maths with Smile") + " VIP Pass (" + stuName + "). Here is my payment screenshot.");
+        document.getElementById("whatsapp-proof-link").href = wa ? ("https://wa.me/" + wa + "?text=" + waText) : ("https://wa.me/?text=" + waText);
+
+        showOnlyView("view-paywall");
+      }
+
+      function renderResponsesTable() {
+        const q = (document.getElementById("response-search").value || "").toLowerCase();
+        const tbody = document.getElementById("responses-tbody");
+        tbody.innerHTML = "";
+        const filtered = state.responses.filter(function (r) {
+          return (r.name || "").toLowerCase().includes(q) || (r.mobile || "").includes(q);
+        });
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);">No student attempts recorded yet.</td></tr>';
+          return;
+        }
+        filtered.forEach(function (r) {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td><strong>" + escapeHtml(r.name) + "</strong></td>" +
+            "<td>" + escapeHtml(r.mobile) + "</td>" +
+            "<td>" + (r.vip ? "VIP" : "Free") + "</td>" +
+            "<td>" + escapeHtml(r.question) + "</td>" +
+            "<td>" + escapeHtml(r.selected) + "</td>" +
+            '<td style="color:' + (r.correct ? "#059669" : "#d97706") + ';font-weight:700;">' + (r.correct ? "Correct (+1)" : "Wrong") + "</td>" +
+            "<td>" + r.coins + "</td>" +
+            "<td>" + escapeHtml(r.timestamp) + "</td>";
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderAdminQuizList() {
+        const container = document.getElementById("admin-quiz-list");
+        container.innerHTML = "";
+        state.quizzes.forEach(function (q, idx) {
+          const row = document.createElement("div");
+          row.className = "copy-row";
+
+          const info = document.createElement("div");
+          info.innerHTML =
+            "<strong>#" + (idx + 1) + ": " + escapeHtml(q.question) + "</strong>" +
+            '<small style="display:block;color:var(--muted);">Correct Tile #' + (Number(q.correctIndex) + 1) + " (" + escapeHtml((q.options[q.correctIndex] && q.options[q.correctIndex].text) || "Image") + ")</small>";
+
+          const actions = document.createElement("div");
+          actions.style.display = "flex";
+          actions.style.gap = "6px";
+
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "btn btn-outline btn-sm";
+          editBtn.textContent = "Edit";
+          editBtn.addEventListener("click", function () {
+            document.getElementById("edit-quiz-id").value = q.id;
+            document.getElementById("builder-heading").textContent = "Edit Puzzle";
+            document.getElementById("new-quiz-question").value = q.question;
+            document.getElementById("new-quiz-explanation").value = q.explanation || "";
+            buildBuilderCells(q);
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn btn-danger btn-sm";
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", async function () {
+            if (state.quizzes.length <= 1) return showToast("At least 1 puzzle must remain.");
+            state.quizzes = state.quizzes.filter(function (item) { return item.id !== q.id; });
+            saveLocal();
+            await pushToCloud("quizzes", state.quizzes);
+            renderAdminDashboard();
+            showToast("Puzzle deleted.");
+          });
+
+          actions.appendChild(editBtn);
+          actions.appendChild(delBtn);
+          row.appendChild(info);
+          row.appendChild(actions);
+          container.appendChild(row);
+        });
+      }
+
+      function buildBuilderCells(quiz) {
+        const container = document.getElementById("builder-cells");
+        container.innerHTML = "";
+        const correctIdx = quiz ? Number(quiz.correctIndex) : 0;
+        for (let i = 0; i < 9; i++) {
+          const opt = quiz && quiz.options[i] ? quiz.options[i] : { text: "", img: "" };
+          const cell = document.createElement("div");
+          cell.className = "builder-cell" + (i === correctIdx ? " is-answer" : "");
+          cell.innerHTML =
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+              '<strong style="font-size:0.82rem;">Tile ' + (i + 1) + "</strong>" +
+              '<label style="font-size:0.78rem;font-weight:700;cursor:pointer;">' +
+                '<input type="radio" name="builder-correct" value="' + i + '"' + (i === correctIdx ? " checked" : "") + " /> Correct" +
+              "</label>" +
+            "</div>" +
+            '<input class="input" id="tile-text-' + i + '" placeholder="Text / Letter" value="' + escapeHtml(opt.text || "") + '" style="margin-bottom:6px;padding:8px;" />' +
+            '<input type="file" id="tile-img-' + i + '" accept="image/*" style="font-size:0.75rem;width:100%;" />' +
+            '<input type="hidden" id="tile-existing-img-' + i + '" value="' + (opt.img || "") + '" />';
+
+          const radio = cell.querySelector('input[type="radio"]');
+          radio.addEventListener("change", function () {
+            document.querySelectorAll(".builder-cell").forEach(function (el, cellIndex) {
+              el.classList.toggle("is-answer", cellIndex === i);
+            });
+          });
+
+          container.appendChild(cell);
+        }
+      }
+
+      function populateSettingsForm() {
+        document.getElementById("set-app-title").value = state.settings.appTitle || "";
+        document.getElementById("set-payee-name").value = state.settings.payeeName || "";
+        document.getElementById("set-gpay-number").value = state.settings.gpayNumber || "";
+        document.getElementById("set-upi-id").value = state.settings.upiId || "";
+        document.getElementById("set-price").value = state.settings.price ?? 99;
+        document.getElementById("set-free-limit").value = state.settings.freeLimit ?? 1;
+        document.getElementById("set-unlock-code").value = state.settings.unlockCode || "SMILE99";
+        document.getElementById("set-whatsapp").value = state.settings.whatsapp || "";
+        document.getElementById("set-admin-pin").value = state.settings.adminPin || "1234";
+        document.getElementById("set-firebase-url").value = state.settings.firebaseUrl || "";
+      }
+
+      function renderAdminDashboard() {
+        const studentList = Object.values(state.students);
+        const totalAttempts = state.responses.length;
+        const correctAttempts = state.responses.filter(function (r) { return r.correct; }).length;
+        const totalCoins = studentList.reduce(function (acc, s) { return acc + (s.coins || 0); }, 0);
+        const vipCount = studentList.filter(function (s) { return s.vip; }).length;
+
+        document.getElementById("kpi-students").textContent = studentList.length;
+        document.getElementById("kpi-attempts").textContent = totalAttempts;
+        document.getElementById("kpi-correct").textContent = correctAttempts;
+        document.getElementById("kpi-coins").textContent = totalCoins;
+        document.getElementById("kpi-vip").textContent = vipCount;
+        document.getElementById("kpi-quizzes").textContent = state.quizzes.length;
+
+        renderResponsesTable();
+        renderAdminQuizList();
+        populateSettingsForm();
+      }
+
+      async function handleSaveSettings() {
+        const customQrInput = document.getElementById("set-custom-qr");
+        if (customQrInput && customQrInput.files && customQrInput.files[0]) {
+          state.settings.customQrImg = await compressImageFile(customQrInput.files[0], 420);
+        }
+
+        state.settings.appTitle = document.getElementById("set-app-title").value.trim() || "Learn Maths with Smile";
+        state.settings.payeeName = document.getElementById("set-payee-name").value.trim() || "Learn Maths with Smile";
+        state.settings.gpayNumber = document.getElementById("set-gpay-number").value.trim();
+        state.settings.upiId = document.getElementById("set-upi-id").value.trim();
+
+        const rawPrice = Number(document.getElementById("set-price").value);
+        state.settings.price = isNaN(rawPrice) || rawPrice < 1 ? 99 : rawPrice;
+
+        const rawFreeLimit = Number(document.getElementById("set-free-limit").value);
+        state.settings.freeLimit = isNaN(rawFreeLimit) || rawFreeLimit < 0 ? 1 : rawFreeLimit;
+
+        state.settings.unlockCode = document.getElementById("set-unlock-code").value.trim() || "SMILE99";
+        state.settings.whatsapp = document.getElementById("set-whatsapp").value.trim();
+        state.settings.adminPin = document.getElementById("set-admin-pin").value.trim() || "1234";
+        state.settings.firebaseUrl = document.getElementById("set-firebase-url").value.trim();
+
+        const savedOk = saveLocal();
+        applyBranding();
+        populateSettingsForm();
+
+        const cloudSettings = Object.assign({}, state.settings);
+        delete cloudSettings.adminPin;
+        const cloudOk = await pushToCloud("settings", cloudSettings);
+        await pushToCloud("quizzes", state.quizzes);
+
+        if (savedOk && cloudOk) {
+          showToast("GPay & App Settings Saved!");
+        } else if (savedOk) {
+          showToast("Saved on this device (check Firebase URL for cloud sync).");
+        }
+      }
+
+      function resetBuilder() {
+        document.getElementById("edit-quiz-id").value = "";
+        document.getElementById("builder-heading").textContent = "Create New 3x3 Puzzle";
+        document.getElementById("new-quiz-question").value = "";
+        document.getElementById("new-quiz-explanation").value = "";
+        document.getElementById("new-quiz-banner-img").value = "";
+        buildBuilderCells(null);
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function downloadBlob(content, filename, mime) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      /* Wire Up All Event Listeners Cleanly */
+      document.getElementById("btn-sync").addEventListener("click", function () {
+        pullFromCloud(false);
+      });
+
+      document.getElementById("btn-admin-open").addEventListener("click", function () {
+        document.getElementById("admin-pin-input").value = "";
+        showOnlyView("view-admin-login");
+      });
+
+      document.getElementById("btn-reset-cache-banner").addEventListener("click", function () {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      });
+
+      document.getElementById("btn-start-playing").addEventListener("click", function () {
+        const name = document.getElementById("student-name").value.trim();
+        const mobile = document.getElementById("student-mobile").value.replace(/\D/g, "");
+        if (!name) return showToast("Please enter student name.");
+        if (mobile.length !== 10) return showToast("Please enter a valid 10-digit mobile number.");
+        const stu = getStudentRecord(mobile, name);
+        state.currentStudent = stu;
+        state.currentQuizIndex = 0;
+        state.selectedTile = null;
+        state.submittedCurrent = false;
+        saveLocal();
+        pushToCloud("students/" + mobile, stu);
+        showOnlyView("view-quiz");
+        renderCurrentQuiz();
+      });
+
+      document.getElementById("unlock-header-btn").addEventListener("click", function () {
+        openPaywall(false);
+      });
+
+      document.getElementById("btn-switch-student").addEventListener("click", function () {
+        state.currentStudent = null;
+        state.selectedTile = null;
+        state.submittedCurrent = false;
+        showOnlyView("view-login");
+      });
+
+      document.getElementById("submit-answer-btn").addEventListener("click", function () {
+        if (state.selectedTile === null) return showToast("Tap a tile to place your X first!");
+        const stu = state.currentStudent;
+        const quiz = state.quizzes[state.currentQuizIndex];
+        if (!stu || !quiz) return;
+
+        const isCorrect = Number(state.selectedTile) === Number(quiz.correctIndex);
+        stu.answeredIds[quiz.id] = state.selectedTile;
+        if (isCorrect) stu.coins = (stu.coins || 0) + 1;
+
+        const selectedLabel = (quiz.options[state.selectedTile] && quiz.options[state.selectedTile].text) || ("Tile #" + (Number(state.selectedTile) + 1));
+        state.responses.unshift({
+          name: stu.name,
+          mobile: stu.mobile,
+          vip: !!stu.vip,
+          quizId: quiz.id,
+          question: quiz.question,
+          selected: selectedLabel,
+          correct: isCorrect,
+          coins: stu.coins,
+          timestamp: new Date().toLocaleString()
+        });
+
+        saveLocal();
+        pushToCloud("students/" + stu.mobile, stu);
+        pushToCloud("responses", state.responses);
+
+        playTone(isCorrect);
+        if (isCorrect) launchConfetti();
+        renderCurrentQuiz();
+      });
+
+      document.getElementById("next-quiz-btn").addEventListener("click", function () {
+        state.currentQuizIndex++;
+        state.selectedTile = null;
+        state.submittedCurrent = false;
+        renderCurrentQuiz();
+      });
+
+      document.getElementById("btn-review-puzzles").addEventListener("click", function () {
+        state.currentQuizIndex = 0;
+        state.selectedTile = null;
+        state.submittedCurrent = false;
+        renderCurrentQuiz();
+      });
+
+      document.getElementById("btn-close-paywall").addEventListener("click", function () {
+        if (state.returnToAdminFromPaywall) {
+          showOnlyView("view-admin");
+          renderAdminDashboard();
+        } else if (state.currentStudent) {
+          showOnlyView("view-quiz");
+        } else {
+          showOnlyView("view-login");
+        }
+      });
+
+      document.getElementById("btn-copy-gpay").addEventListener("click", function () {
+        const txt = document.getElementById("pay-gpay-number").textContent || "";
+        if (navigator.clipboard) navigator.clipboard.writeText(txt);
+        showToast("Copied: " + txt);
+      });
+
+      document.getElementById("btn-copy-upi").addEventListener("click", function () {
+        const txt = document.getElementById("pay-upi-id").textContent || "";
+        if (navigator.clipboard) navigator.clipboard.writeText(txt);
+        showToast("Copied: " + txt);
+      });
+
+      document.getElementById("btn-verify-unlock").addEventListener("click", function () {
+        const entered = document.getElementById("unlock-code-input").value.trim();
+        const expected = (state.settings.unlockCode || "SMILE99").trim();
+        if (!entered || entered.toLowerCase() !== expected.toLowerCase()) {
+          return showToast("Invalid Unlock Code. Please check and try again.");
+        }
+        if (state.currentStudent) {
+          state.currentStudent.vip = true;
+          saveLocal();
+          pushToCloud("students/" + state.currentStudent.mobile, state.currentStudent);
+        }
+        launchConfetti();
+        playTone(true);
+        showToast("VIP Pass Unlocked! Enjoy all quizzes!");
+        if (state.currentStudent) {
+          showOnlyView("view-quiz");
+          renderCurrentQuiz();
+        } else {
+          showOnlyView("view-login");
+        }
+      });
+
+      document.getElementById("btn-login-admin").addEventListener("click", function () {
+        const pin = document.getElementById("admin-pin-input").value.trim();
+        if (pin !== String(state.settings.adminPin || "1234")) {
+          return showToast("Incorrect Admin PIN.");
+        }
+        showOnlyView("view-admin");
+        renderAdminDashboard();
+      });
+
+      document.getElementById("btn-cancel-admin").addEventListener("click", function () {
+        if (state.currentStudent) showOnlyView("view-quiz");
+        else showOnlyView("view-login");
+      });
+
+      document.getElementById("btn-preview-paywall").addEventListener("click", function () {
+        openPaywall(true);
+      });
+
+      document.getElementById("btn-exit-admin").addEventListener("click", function () {
+        if (state.currentStudent) {
+          showOnlyView("view-quiz");
+          renderCurrentQuiz();
+        } else {
+          showOnlyView("view-login");
+        }
+      });
+
+      document.querySelectorAll(".tab-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const tab = btn.getAttribute("data-tab");
+          ["responses", "quizzes", "settings"].forEach(function (t) {
+            document.getElementById("admin-tab-" + t).classList.toggle("hidden", t !== tab);
+          });
+          document.querySelectorAll(".tab-btn").forEach(function (b) {
+            b.classList.toggle("active", b.getAttribute("data-tab") === tab);
+          });
+        });
+      });
+
+      document.getElementById("response-search").addEventListener("input", renderResponsesTable);
+
+      document.getElementById("btn-export-csv").addEventListener("click", function () {
+        const headers = ["Student Name", "Mobile", "VIP", "Question", "Selected Answer", "Correct", "Smiley Coins", "Timestamp"];
+        const rows = state.responses.map(function (r) {
+          return [r.name, r.mobile, r.vip ? "Yes" : "No", r.question, r.selected, r.correct ? "Yes" : "No", r.coins, r.timestamp];
+        });
+        const csv = [headers].concat(rows)
+          .map(function (row) {
+            return row.map(function (v) { return '"' + String(v ?? "").replace(/"/g, '""') + '"'; }).join(",");
+          })
+          .join("
+");
+        downloadBlob(csv, "smiley-coin-responses.csv", "text/csv");
+      });
+
+      document.getElementById("btn-save-quiz").addEventListener("click", async function () {
+        const question = document.getElementById("new-quiz-question").value.trim();
+        const explanation = document.getElementById("new-quiz-explanation").value.trim();
+        if (!question) return showToast("Please enter a question prompt.");
+
+        const checkedRadio = document.querySelector('input[name="builder-correct"]:checked');
+        const correctIndex = checkedRadio ? Number(checkedRadio.value) : 0;
+
+        const bannerFile = document.getElementById("new-quiz-banner-img").files[0];
+        const editId = document.getElementById("edit-quiz-id").value;
+        const existingQuiz = editId ? state.quizzes.find(function (q) { return q.id === editId; }) : null;
+        const bannerImg = bannerFile ? await compressImageFile(bannerFile, 640) : (existingQuiz ? existingQuiz.bannerImg : "");
+
+        const options = [];
+        for (let i = 0; i < 9; i++) {
+          const text = document.getElementById("tile-text-" + i).value.trim();
+          const fileInput = document.getElementById("tile-img-" + i);
+          const existingTileImg = document.getElementById("tile-existing-img-" + i).value;
+          const img = fileInput.files[0] ? await compressImageFile(fileInput.files[0], 320) : existingTileImg;
+          options.push({ text: text || (img ? "" : String(i + 1)), img: img });
+        }
+
+        if (existingQuiz) {
+          existingQuiz.question = question;
+          existingQuiz.explanation = explanation;
+          existingQuiz.bannerImg = bannerImg;
+          existingQuiz.correctIndex = correctIndex;
+          existingQuiz.options = options;
+        } else {
+          state.quizzes.push({
+            id: "q_" + Date.now(),
+            question: question,
+            explanation: explanation,
+            bannerImg: bannerImg,
+            correctIndex: correctIndex,
+            options: options
+          });
+        }
+
+        saveLocal();
+        await pushToCloud("quizzes", state.quizzes);
+        resetBuilder();
+        renderAdminDashboard();
+        showToast("Puzzle saved!");
+      });
+
+      document.getElementById("btn-clear-builder").addEventListener("click", resetBuilder);
+      document.getElementById("btn-save-settings-top").addEventListener("click", handleSaveSettings);
+      document.getElementById("btn-save-settings-bottom").addEventListener("click", handleSaveSettings);
+
+      document.getElementById("btn-test-firebase").addEventListener("click", async function () {
+        state.settings.firebaseUrl = document.getElementById("set-firebase-url").value.trim();
+        if (!state.settings.firebaseUrl) return showToast("Enter your Firebase Realtime Database URL first.");
+        const ok = await pullFromCloud(false);
+        showToast(ok ? "Connected to Firebase!" : "Could not reach Firebase URL. Check rules/URL.");
+      });
+
+      document.getElementById("btn-export-json").addEventListener("click", function () {
+        const data = JSON.stringify({ quizzes: state.quizzes, settings: state.settings, responses: state.responses, students: state.students }, null, 2);
+        downloadBlob(data, "smiley-coin-backup.json", "application/json");
+      });
+
+      document.getElementById("input-import-json").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+          try {
+            const parsed = JSON.parse(e.target.result);
+            if (Array.isArray(parsed.quizzes)) state.quizzes = parsed.quizzes;
+            if (parsed.settings) state.settings = Object.assign({}, DEFAULT_SETTINGS, parsed.settings);
+            if (Array.isArray(parsed.responses)) state.responses = parsed.responses;
+            if (parsed.students) state.students = parsed.students;
+            saveLocal();
+            applyBranding();
+            renderAdminDashboard();
+            await pushToCloud("quizzes", state.quizzes);
+            showToast("Backup restored successfully!");
+          } catch (err) {
+            showToast("Invalid JSON backup file.");
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      document.getElementById("btn-download-html").addEventListener("click", function () {
+        const html = "<!DOCTYPE html>
+" + document.documentElement.outerHTML;
+        downloadBlob(html, "index.html", "text/html");
+      });
+
+      document.getElementById("btn-reset-app").addEventListener("click", function () {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      });
+
+      /* Initialize */
+      loadLocal();
+      applyBranding();
+      buildBuilderCells(null);
+      if (state.settings.firebaseUrl) {
+        pullFromCloud(true);
+        state.syncTimer = setInterval(function () {
+          pullFromCloud(true);
+        }, 5000);
+      }
+    });
+  </script>
+</body>
+</html>
